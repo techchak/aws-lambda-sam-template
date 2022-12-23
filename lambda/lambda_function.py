@@ -12,4 +12,4 @@ def lambda_handler(event, context):
     
     print(df)
     
-    return (success)
+    # return (success)
