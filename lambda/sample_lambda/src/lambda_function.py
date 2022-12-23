@@ -1,33 +1,15 @@
 import boto3
 import os
-ec2 = boto3.resource('ec2')
-client = boto3.client('sns')
-
-SNS_ARN = os.environ['SNS_ARN']
-INSTANCE_TYPE = os.environ['INSTANCE_TYPE']
-KEY_NAME = os.environ['KEY_NAME']
-AMI=os.environ['AMI']
-SUBNET_ID=os.environ['SUBNET_ID']
-SNS_MESSAGE = os.environ['SNS_MESSAGE']
+import numpy as np
+import pandas as pd
 
 
 def lambda_handler(event, context):
-    instance = ec2.create_instances(
-        InstanceType=INSTANCE_TYPE,
-        KeyName=KEY_NAME,
-        ImageId=AMI,
-        SubnetId=SUBNET_ID,
-        MaxCount=3,
-        MinCount=1,
-        TagSpecifications=[{
-            'ResourceType': 'instance',
-            'Tags': [{'Key': 'Name','Value': 'Dry-run'}]
-        }]   
-    )
-    print("New instance created:", instance[0].id)
-   
-    response = client.publish(
-        TopicArn = SNS_ARN,
-        Message = SNS_MESSAGE
-        )
-    return {'statusCode': 200,}
+    df = pd.DataFrame({'num_legs': [2, 4, 8, 0],
+                       'num_wings': [2, 0, 0, 0],
+                       'num_specimen_seen': [8, 2, 5, 6]},
+                      index=['sparrow', 'fox', 'spider', 'snake'])
+    
+    print(df)
+    
+    return (success)
